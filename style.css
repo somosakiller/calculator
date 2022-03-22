@@ -1,0 +1,36 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+    width: 100vw;
+}
+
+.display{
+    height: 20px;
+    width: 45px;
+    text-align: center;
+    border-style: solid;
+    padding: 6px 36px;
+}
+button{
+    font-size:25px ;
+}
+
+#clear{
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+
+
+#zero{
+    /* margin-right: 30px; */
+    margin-left: 45px;
+}
+
+#equals{
+    padding: 1px 5px;
+    
+}
