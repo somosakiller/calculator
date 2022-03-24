@@ -4,53 +4,62 @@ let operatorButton = document.querySelectorAll('.operator');
 let equalButton = document.querySelector('.equals')
 let screen= document.querySelector('.display');
 let clearButton = document.querySelector('#clear');
+let decimalButton = document.querySelector('#decimal');
+let backButton = document.querySelector('.backspace');
 let num1 = '';
 let num2 = '';
 let operator = '';
-let seriesCounter =0;
+let multipleOperationsCounter =0;
+let decimalCounter =0;
+let backspaceLimiter =0;
 
 
 let operate = ()=>{
     // check the operator variable to determine we operation to execute
+    
 
     if(operator === '+'){
         screen.textContent = add();
-        num1 = parseInt(screen.textContent);
+        backspaceLimiter =1;
+        num1 = parseFloat(screen.textContent);
     }
 
     else if( operator === '-'){
         screen.textContent = subtract();
-        num1 = parseInt(screen.textContent);
+        backspaceLimiter =1;
+        num1 = parseFloat(screen.textContent);
     }
 
     else if( operator === '*'){
         screen.textContent = multiply();
-        num1 = parseInt(screen.textContent);
+        backspaceLimiter =1;
+        num1 = parseFloat(screen.textContent);
     }
 
     else if( operator === '/'){
         screen.textContent = divide();
-        num1 = parseInt(screen.textContent);
+        backspaceLimiter =1;
+        num1 = parseFloat(screen.textContent);
     }
 }
 
 let add = ()=>{
     let sum = num1 + num2;
-    return sum;
+    return sum.toFixed(2);
 }
 let subtract = () => {
     let sub = num1 - num2;
-    return sub;
+    return sub.toFixed(2);
 }
 
 let multiply = () => {
     let prod = num1 * num2;
-    return prod;
+    return prod.toFixed(2);
 }
 
 let divide = () => {
     let  quo= num1 / num2;
-    return quo;
+    return quo.toFixed(2);
 }
 
 let display = ()=>{  
@@ -58,9 +67,10 @@ let display = ()=>{
     numberButton.forEach(element => {
         element.addEventListener('click', ()=>{
             // clears display after each operation
-            if(seriesCounter != 0){
+            if(multipleOperationsCounter != 0){
                 clearDisplay();
-                seriesCounter =0;
+                multipleOperationsCounter =0;
+                backspaceLimiter=0;
                 
             }
             screen.textContent += element.textContent;
@@ -71,41 +81,67 @@ let display = ()=>{
     operatorButton.forEach(element =>{
         element.addEventListener('click', ()=>{
             if(num1!=''){
-                num2 = parseInt(screen.textContent);
+                num2 = parseFloat(screen.textContent);
                 operate();
                 operator = element.textContent;
-                seriesCounter =1;
+                multipleOperationsCounter =1;
                 num2='';
+                decimalCounter = 0;
 
             }
             else{
                 operator = element.textContent;
-                num1 = parseInt(screen.textContent);
+                num1 = parseFloat(screen.textContent);
                 clearDisplay();
-                console.log(num1);
+                decimalCounter = 0;
             }
         })
     })
 
     equalButton.addEventListener('click', ()=>{
-        seriesCounter = 1;
-        num2 = parseInt(screen.textContent);
-        operate();
-        num1='';
-        num2='';
+        if (screen.textContent ===''){
+            screen.textContent = num1;
+            multipleOperationsCounter =1;
+            num1='';
+            decimalCounter = 0;
+        }
+        else{
+            multipleOperationsCounter = 1;
+            num2 = parseFloat(screen.textContent);
+            operate();
+            num1='';
+            num2='';
+            decimalCounter = 0;
+        }
+    })
+
+    decimalButton.addEventListener('click',()=>{
+        if(decimalCounter!=0){
+            screen.textContent+='';
+        }
+        else{
+            screen.textContent+=decimalButton.textContent;
+            decimalCounter = 1;
+        }
         
+    })
+
+    backButton.addEventListener('click', ()=>{
+        if(backspaceLimiter===0){
+            screen.textContent = screen.textContent.slice(0,-1);
+        }
     })
 
     clearButton.addEventListener('click', ()=>{
         clearDisplay();
         num1='';
         num2='';
-        seriesCounter = 0;
+        multipleOperationsCounter = 0;
+        decimalCounter = 0;
+        backspaceLimiter =0;
     })
 
-
     
-
 }
 
 let clearDisplay = ()=>{
